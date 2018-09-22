@@ -31,9 +31,10 @@
         <Button x:Name="decimalb" Content="." Background="LightYellow" HorizontalAlignment="Left" VerticalAlignment="Top" Width="51" Margin="12,358,0,0" Height="49" Click="decimalb_Click" Grid.Column="1"/>
         <Button x:Name="clearEntryButton" Content="CE" Background="LightYellow" HorizontalAlignment="Left" VerticalAlignment="Top" Width="51" Margin="89,358,0,0" Height="49" Click="clearEntryButton_Click" Grid.Column="1"/>
         <Button x:Name="clearButton" Content="C" Background="LightYellow" HorizontalAlignment="Left" VerticalAlignment="Top" Width="51" Margin="161,358,0,0" Height="49" RenderTransformOrigin="4.898,4.887" Click="clearButton_Click" Grid.Column="1"/>
-        <TextBox x:Name="txtDisplay" IsEnabled="False" Cursor="None" HorizontalAlignment="Left" Height="43" Margin="47,21,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="230" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtDisplay" IsEnabled="False" Cursor="None" HorizontalAlignment="Left" Height="30" Margin="47,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="230" Grid.ColumnSpan="2" />
         <Button x:Name="squareRootButton" Background="LightYellow" Content="√" HorizontalAlignment="Left" VerticalAlignment="Top" Width="51" Margin="89,86,0,0" Height="49" Click="squareRootButton_Click" Grid.Column="1"/>
         <Button x:Name="factorialButton" Background="LightYellow" Content="!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="51" Margin="161,86,0,0" Height="49" Click="factorialButton_Click" Grid.Column="1"/>
+        <TextBox x:Name="expression" IsEnabled="False" Cursor="None" HorizontalAlignment="Left" Height="23" Margin="47,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="230" Grid.ColumnSpan="2"  />
 
     </Grid>
 </Window>

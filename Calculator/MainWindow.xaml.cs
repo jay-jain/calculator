@@ -28,11 +28,13 @@ namespace Calculator
 		private void divideButton_Click(object sender, RoutedEventArgs e)
         {
             ApplyOperator(Operator.Divide);
+            expression.Text = expression.Text + '/';
         }
 
         private void multiplyButton_Click(object sender, RoutedEventArgs e)
         {
             ApplyOperator(Operator.Multiply);
+            expression.Text = expression.Text + '*';
         }
 
         private void button7_Click(object sender, RoutedEventArgs e)
@@ -53,6 +55,8 @@ namespace Calculator
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             ApplyOperator(Operator.Add);
+            expression.Text = expression.Text + '+';
+
         }
 
         private void button4_Click(object sender, RoutedEventArgs e)
@@ -73,6 +77,8 @@ namespace Calculator
         private void subtractButton_Click(object sender, RoutedEventArgs e)
         {
             ApplyOperator(Operator.Minus);
+            expression.Text = expression.Text + '-';
+
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -99,6 +105,13 @@ namespace Calculator
         private void squareRootButton_Click(object sender, RoutedEventArgs e)
         {
             ApplyOperator(Operator.Root);
+            expression.Text = "√" + expression.Text; 
+        }
+
+        private void factorialButton_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyOperator(Operator.Factorial);
+            expression.Text = expression.Text + '!';
         }
 
         private void Calculate()
@@ -118,21 +131,23 @@ namespace Calculator
                     total = total * currentValue;
                     break;
                 case Operator.Root:
-                    if(currentValue >= 0){
-                        total = Math.Sqrt(total);                        
-                    }else{
+                    if (currentValue >= 0) {
+                        total = Math.Sqrt(total);
+                    } else {
                         break;
                     }
                     break;
                 case Operator.Factorial:
-                    //if(currentValue > 1)
-                    int cur = (int)currentValue;
-                    
-                    for(int i= cur - 1; i >= 1;i--)
+                    if (currentValue >=0 ) { 
+                        int cur = (int)currentValue;
+
+                        for (int i = cur - 1; i >= 1; i--)
                         {
-                        cur = cur * i;
+                            cur = cur * i;
                         }
-                    total = cur;
+                        total = cur;
+                        break;
+                    }
                     break;
                 case Operator.Null:
                     break;
@@ -186,12 +201,6 @@ namespace Calculator
         {
             txtDisplay.Text = txtDisplay.Text + n;
             Double.TryParse(txtDisplay.Text, out currentValue);
-        }
-
-        private void factorialButton_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyOperator(Operator.Factorial);
-            txtDisplay.Text = txtDisplay.Text + '!';
         }
     }
 }
