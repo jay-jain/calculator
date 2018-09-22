@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows;
-using System.Text.RegularExpressions;
+
 
 namespace Calculator
 {
+    // List of Operators
     public enum Operator
     {
         Null,
@@ -17,6 +18,7 @@ namespace Calculator
 
     public partial class MainWindow
     {
+        // Declare and intialize some variables
         private double total = 0.0;
         private double currentValue = 0.0;
         private Operator current;
@@ -28,41 +30,99 @@ namespace Calculator
 
 		private void divideButton_Click(object sender, RoutedEventArgs e)
         {
-            if (expression.Text == String.Empty)
+            if (expression.Text == String.Empty) // Initial use of divide operator
             {
                 expression.Text = txtDisplay.Text + '/';
                 ApplyOperator(Operator.Divide);
             }
-            else if (expression.Text[expression.Text.Length - 1] == '/')
+            else if (expression.Text[expression.Text.Length - 1] == '/') // When dividing with other division operators
             {
                 expression.Text += txtDisplay.Text + '/';
                 ApplyOperator(Operator.Divide);
             }
             else
             {
-                expression.Text = expression.Text + '/' + txtDisplay.Text;
+                expression.Text = expression.Text + txtDisplay.Text + '/'; // When dividing with multiple other operators
                 ApplyOperator(Operator.Divide);
             }
         }
 
         private void multiplyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (expression.Text == String.Empty)
+            if (expression.Text == String.Empty) // Initial use of multiply operator
             {
                 expression.Text = txtDisplay.Text + '*';
                 ApplyOperator(Operator.Multiply);
-            } else if (expression.Text[expression.Text.Length - 1] == '*') 
+            } else if (expression.Text[expression.Text.Length - 1] == '*') // When multiplying with other multiplication operators
             {
                 expression.Text += txtDisplay.Text +'*';
                 ApplyOperator(Operator.Multiply);
             }
-            else
+            else // When multipling with other various operators
             {
-                expression.Text = expression.Text + '*' + txtDisplay.Text;
+                expression.Text = expression.Text + txtDisplay.Text + '*';
                 ApplyOperator(Operator.Multiply);
             }
         }
 
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (expression.Text == String.Empty) // Initial use of addition operator
+            {
+                expression.Text = txtDisplay.Text + '+';
+                ApplyOperator(Operator.Add);
+            }
+            else if (expression.Text[expression.Text.Length - 1] == '+') // When adding with other addition operators
+            {
+                expression.Text += txtDisplay.Text + '+';
+                ApplyOperator(Operator.Add);
+            }
+            else // When adding with multiple other operators
+            {
+                expression.Text = expression.Text + txtDisplay.Text + '+';
+                ApplyOperator(Operator.Add);
+            }
+        }
+
+        private void subtractButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (expression.Text == String.Empty) // Initial use of subtract operator
+            {
+                expression.Text = txtDisplay.Text + '-';
+                ApplyOperator(Operator.Minus);
+            }
+            else if (expression.Text[expression.Text.Length - 1] == '-') // When subtracting with other subtraction operators
+            {
+                expression.Text += txtDisplay.Text + '-';
+                ApplyOperator(Operator.Minus);
+            }
+            else // When subtracting with multiple other operators
+            {
+                expression.Text = expression.Text + txtDisplay.Text + '-';
+                ApplyOperator(Operator.Minus);
+            }
+        }
+
+        private void equalsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Calculate();
+            txtDisplay.Text = Convert.ToString(total); 
+            expression.Text = String.Empty;
+        }
+
+        private void squareRootButton_Click(object sender, RoutedEventArgs e)
+        {
+            expression.Text = "√" + txtDisplay.Text;
+            ApplyOperator(Operator.Root);
+        }
+
+        private void factorialButton_Click(object sender, RoutedEventArgs e)
+        {
+            expression.Text = txtDisplay.Text + '!';
+            ApplyOperator(Operator.Factorial);
+        }
+
+        /* Numerical button clicks*/
         private void button7_Click(object sender, RoutedEventArgs e)
         {
             DisplayInput(button7.Content.ToString());
@@ -77,26 +137,7 @@ namespace Calculator
         {
 			DisplayInput(button9.Content.ToString());
         }
-
-        private void addButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (expression.Text == String.Empty)
-            {
-                expression.Text = txtDisplay.Text + '+';
-                ApplyOperator(Operator.Add);
-            }
-            else if (expression.Text[expression.Text.Length - 1] == '+')
-            {
-                expression.Text += txtDisplay.Text + '+';
-                ApplyOperator(Operator.Add);
-            }
-            else
-            {
-                expression.Text = expression.Text + '+' + txtDisplay.Text;
-                ApplyOperator(Operator.Add);
-            }
-        }
-
+        
         private void button4_Click(object sender, RoutedEventArgs e)
         {
 			DisplayInput(button4.Content.ToString());
@@ -110,25 +151,6 @@ namespace Calculator
         private void button6_Click(object sender, RoutedEventArgs e)
         {
 			DisplayInput(button6.Content.ToString());
-        }
-
-        private void subtractButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (expression.Text == String.Empty)
-            {
-                expression.Text = txtDisplay.Text + '-';
-                ApplyOperator(Operator.Minus);
-            }
-            else if (Regex.IsMatch(expression.Text[expression.Text.Length - 1].ToString(),"(+-\*/)?") )
-            {
-                expression.Text += txtDisplay.Text + '-';
-                ApplyOperator(Operator.Minus);
-            }
-            else
-            {
-                expression.Text = expression.Text + '-' + txtDisplay.Text;
-                ApplyOperator(Operator.Minus);
-            }
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -146,25 +168,18 @@ namespace Calculator
 			DisplayInput(button3.Content.ToString());
         }
 
-        private void equalsButton_Click(object sender, RoutedEventArgs e)
+        private void button0_Click(object sender, RoutedEventArgs e)
         {
-            Calculate();
-            txtDisplay.Text = Convert.ToString(total);
-            expression.Text = String.Empty;
+            DisplayInput(button0.Content.ToString());
         }
 
-        private void squareRootButton_Click(object sender, RoutedEventArgs e)
+        private void decimalb_Click(object sender, RoutedEventArgs e)
         {
-            expression.Text = "√" + txtDisplay.Text;
-            ApplyOperator(Operator.Root);
+            //expression.Text = expression.Text + '.';
+            txtDisplay.Text = txtDisplay.Text + '.';
         }
 
-        private void factorialButton_Click(object sender, RoutedEventArgs e)
-        {
-            expression.Text = txtDisplay.Text + '!';
-            ApplyOperator(Operator.Factorial);
-        }
-
+        /* Perform various operations */
         private void Calculate()
         {
             switch (current)
@@ -189,10 +204,12 @@ namespace Calculator
                     }
                     break;
                 case Operator.Factorial:
-                    if (currentValue == 0 || currentValue == 1){
+                    currentValue = Convert.ToDouble(expression.Text.TrimEnd('!')); // Remove factorial operator in order to correctly obtain operand
+                    Console.WriteLine("current value: " + currentValue);
+                    if (currentValue == 0 || currentValue == 1){ // Base case
                         total = 1;
                         break;
-                    }else if (currentValue >= 2 ) { 
+                    }else if (currentValue >= 2 ) { // Positive integer cases
                         int cur = (int)currentValue;
 
                         for (int i = cur - 1; i >= 1; i--)
@@ -202,31 +219,24 @@ namespace Calculator
                         total = cur;
                         break;
                     }
-                    else
+                    else if(currentValue < 0) // Negative integer cases
                     {
+                        total = 99999999999;
                         break;
                     }
+                    break;
                 case Operator.Null:
                     break;
             }
-            currentValue = 0;
-            current = Operator.Null;
+            currentValue = 0; // Reset current value
+            current = Operator.Null; // Reset current operator
         }
 
-        private void button0_Click(object sender, RoutedEventArgs e)
-        {
-			DisplayInput(button0.Content.ToString());
-        }
 
-        private void decimalb_Click(object sender, RoutedEventArgs e)
-        {
-            //expression.Text = expression.Text + '.';
-            txtDisplay.Text = txtDisplay.Text + '.';
-        }
 
         private void clearEntryButton_Click(object sender, RoutedEventArgs e)
         {
-            if(expression.Text != String.Empty)
+            if(expression.Text != String.Empty) // Clear the bottom textbox when an expression is being constructed in the top text box
             {
                 txtDisplay.Text = String.Empty;
             }
@@ -251,7 +261,7 @@ namespace Calculator
                 Calculate();
             }
             else
-            {
+            { // Error handling for null operator
                 try
                 {
                     total = double.Parse(txtDisplay.Text);
@@ -263,12 +273,12 @@ namespace Calculator
             current = op;
         }
 
-        private void DisplayInput(String n)
+        private void DisplayInput(String n) 
         {
-            if(txtDisplay.Text == "0")
+            if(txtDisplay.Text == "0") // Reset bottom text box to input to avoid preceding zeroes
             {
                 txtDisplay.Text = n;
-                Double.TryParse(txtDisplay.Text, out currentValue);
+                currentValue = Convert.ToDouble(txtDisplay.Text);
             }
             else
             {

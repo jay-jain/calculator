@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Calculator"
         
         mc:Ignorable="d"
-        Title="Calculator" Height="460.832" Width="338.829">
+        Title="Calculator" Height="460.832" Width="338.829" Background="AliceBlue">
 
     <Grid Margin="0,0,-187,-130" Height="449" VerticalAlignment="Top" HorizontalAlignment="Left" Width="704">
         <Grid.ColumnDefinitions>
