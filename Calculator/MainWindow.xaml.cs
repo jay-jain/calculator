@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Text.RegularExpressions;
 
 namespace Calculator
 {
@@ -27,14 +28,39 @@ namespace Calculator
 
 		private void divideButton_Click(object sender, RoutedEventArgs e)
         {
-            ApplyOperator(Operator.Divide);
-            expression.Text = expression.Text + '/';
+            if (expression.Text == String.Empty)
+            {
+                expression.Text = txtDisplay.Text + '/';
+                ApplyOperator(Operator.Divide);
+            }
+            else if (expression.Text[expression.Text.Length - 1] == '/')
+            {
+                expression.Text += txtDisplay.Text + '/';
+                ApplyOperator(Operator.Divide);
+            }
+            else
+            {
+                expression.Text = expression.Text + '/' + txtDisplay.Text;
+                ApplyOperator(Operator.Divide);
+            }
         }
 
         private void multiplyButton_Click(object sender, RoutedEventArgs e)
         {
-            ApplyOperator(Operator.Multiply);
-            expression.Text = expression.Text + '*';
+            if (expression.Text == String.Empty)
+            {
+                expression.Text = txtDisplay.Text + '*';
+                ApplyOperator(Operator.Multiply);
+            } else if (expression.Text[expression.Text.Length - 1] == '*') 
+            {
+                expression.Text += txtDisplay.Text +'*';
+                ApplyOperator(Operator.Multiply);
+            }
+            else
+            {
+                expression.Text = expression.Text + '*' + txtDisplay.Text;
+                ApplyOperator(Operator.Multiply);
+            }
         }
 
         private void button7_Click(object sender, RoutedEventArgs e)
@@ -54,9 +80,21 @@ namespace Calculator
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            ApplyOperator(Operator.Add);
-            expression.Text = expression.Text + '+';
-
+            if (expression.Text == String.Empty)
+            {
+                expression.Text = txtDisplay.Text + '+';
+                ApplyOperator(Operator.Add);
+            }
+            else if (expression.Text[expression.Text.Length - 1] == '+')
+            {
+                expression.Text += txtDisplay.Text + '+';
+                ApplyOperator(Operator.Add);
+            }
+            else
+            {
+                expression.Text = expression.Text + '+' + txtDisplay.Text;
+                ApplyOperator(Operator.Add);
+            }
         }
 
         private void button4_Click(object sender, RoutedEventArgs e)
@@ -76,9 +114,21 @@ namespace Calculator
 
         private void subtractButton_Click(object sender, RoutedEventArgs e)
         {
-            ApplyOperator(Operator.Minus);
-            expression.Text = expression.Text + '-';
-
+            if (expression.Text == String.Empty)
+            {
+                expression.Text = txtDisplay.Text + '-';
+                ApplyOperator(Operator.Minus);
+            }
+            else if (Regex.IsMatch(expression.Text[expression.Text.Length - 1].ToString(),"(+-\*/)?") )
+            {
+                expression.Text += txtDisplay.Text + '-';
+                ApplyOperator(Operator.Minus);
+            }
+            else
+            {
+                expression.Text = expression.Text + '-' + txtDisplay.Text;
+                ApplyOperator(Operator.Minus);
+            }
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -100,18 +150,19 @@ namespace Calculator
         {
             Calculate();
             txtDisplay.Text = Convert.ToString(total);
+            expression.Text = String.Empty;
         }
 
         private void squareRootButton_Click(object sender, RoutedEventArgs e)
         {
+            expression.Text = "√" + txtDisplay.Text;
             ApplyOperator(Operator.Root);
-            expression.Text = "√" + expression.Text; 
         }
 
         private void factorialButton_Click(object sender, RoutedEventArgs e)
         {
+            expression.Text = txtDisplay.Text + '!';
             ApplyOperator(Operator.Factorial);
-            expression.Text = expression.Text + '!';
         }
 
         private void Calculate()
@@ -138,7 +189,10 @@ namespace Calculator
                     }
                     break;
                 case Operator.Factorial:
-                    if (currentValue >=0 ) { 
+                    if (currentValue == 0 || currentValue == 1){
+                        total = 1;
+                        break;
+                    }else if (currentValue >= 2 ) { 
                         int cur = (int)currentValue;
 
                         for (int i = cur - 1; i >= 1; i--)
@@ -148,7 +202,10 @@ namespace Calculator
                         total = cur;
                         break;
                     }
-                    break;
+                    else
+                    {
+                        break;
+                    }
                 case Operator.Null:
                     break;
             }
@@ -163,18 +220,27 @@ namespace Calculator
 
         private void decimalb_Click(object sender, RoutedEventArgs e)
         {
+            //expression.Text = expression.Text + '.';
             txtDisplay.Text = txtDisplay.Text + '.';
         }
 
         private void clearEntryButton_Click(object sender, RoutedEventArgs e)
         {
-            txtDisplay.Text = String.Empty;
-		}
+            if(expression.Text != String.Empty)
+            {
+                txtDisplay.Text = String.Empty;
+            }
+            else
+            {
+                txtDisplay.Text = "0";
+            }
+        }
 
 		private void clearButton_Click(object sender, RoutedEventArgs e)
         {
             current = Operator.Null;
-            txtDisplay.Clear();
+            txtDisplay.Text = "0";
+            expression.Text = String.Empty;
             total = 0;
         }
 
@@ -199,8 +265,16 @@ namespace Calculator
 
         private void DisplayInput(String n)
         {
-            txtDisplay.Text = txtDisplay.Text + n;
-            Double.TryParse(txtDisplay.Text, out currentValue);
+            if(txtDisplay.Text == "0")
+            {
+                txtDisplay.Text = n;
+                Double.TryParse(txtDisplay.Text, out currentValue);
+            }
+            else
+            {
+                txtDisplay.Text = txtDisplay.Text + n;
+                Double.TryParse(txtDisplay.Text, out currentValue);
+            }
         }
     }
 }
